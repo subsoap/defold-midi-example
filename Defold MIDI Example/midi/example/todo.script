@@ -1,41 +1,27 @@
 function init(self)
-	-- self.id = 48
-	-- msg.post("audio#" .. self.id, "play_sound")
-	-- timer.delay(0.2, true, function(self, handle, time_elapsed)
-	-- 	self.id = self.id + 1
-	-- 	if self.id > 71 then self.id = 48 end
-	-- 	msg.post("audio#" .. self.id, "play_sound")
-	-- end)
-
-	print("out#", midi.count_out())
-	print("in#", midi.count_in())
-
-	midi.open_in(0, "foo");
-
-	print(midi.get_name_in(0))
-
-	print("In open:", midi.is_in_open())
-	print("Out open:", midi.is_out_open())
-
-	midi.set_listener(function(self, messages)
-		pprint(messages)
-		-- for k, v in ipairs(messages) do
-		-- 	pprint(v)
-		-- 	print(type(v))
-		-- 	-- if v[1] == 128 then
-		-- 	-- 	if v[2] >= 48 and v[2] <= 72 then
-		-- 	-- 		msg.post("audio#" .. v[2], "play_sound")
-		-- 	-- 	end
-		-- 	-- end
-		-- end
-		if messages[1] == 144 then
-			if messages[2] >= 48 and messages[2] <= 72 then
-				msg.post("audio#" .. messages[2], "play_sound")
-			else
-				print("MIDI range for testing in this example is between 48 and 72")
-			end
-		end
-	end)
+	midi.get_api_name(api)
+	midi.get_api_display_name(api)
+	midi.get_compiled_api()
+	midi.get_compiled_api_by_name(name)
+	midi.get_rtmidi_version()
+	
+	midi.cancel_callback()
+	midi.cancel_error_callback()
+	midi.close_port()
+	midi.delete()
+	midi.get_current_api()
+	midi.get_message()
+	midi.get_port_count()
+	midi.get_port_name()
+	midi.get_ports()
+	midi.ignore_types()
+	midi.is_port_open()
+	midi.open_port()
+	midi.open_virtual_port()
+	midi.set_callback()
+	midi.set_client_name()
+	midi.set_error_callback()
+	midi.set_port_name()
 end
 
 function final(self)
