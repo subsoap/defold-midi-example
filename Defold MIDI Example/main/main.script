@@ -1,42 +1,41 @@
+local function initialize_midi()
+	print("initialize_midi")
+	local out_count = midi.count_out()
+	local in_count = midi.count_in()
+	print("out#", out_count)
+	print("in#", in_count)
+
+	if in_count > 0 then
+		midi.open_in(0, "foo");
+		print("In open:", midi.is_in_open())
+		print("Out open:", midi.is_out_open())
+
+		print(midi.get_name_in(0))
+	else
+		print("No input devices")
+	end
+end
+
 function init(self)
-	-- self.id = 48
-	-- msg.post("audio#" .. self.id, "play_sound")
-	-- timer.delay(0.2, true, function(self, handle, time_elapsed)
-	-- 	self.id = self.id + 1
-	-- 	if self.id > 71 then self.id = 48 end
-	-- 	msg.post("audio#" .. self.id, "play_sound")
-	-- end)
-
-	print("out#", midi.count_out())
-	print("in#", midi.count_in())
-
-	midi.open_in(0, "foo");
-
-	print(midi.get_name_in(0))
-
-	print("In open:", midi.is_in_open())
-	print("Out open:", midi.is_out_open())
-
-	midi.set_listener(function(self, messages)
-		pprint(messages)
-		-- for k, v in ipairs(messages) do
-		-- 	pprint(v)
-		-- 	print(type(v))
-		-- 	-- if v[1] == 128 then
-		-- 	-- 	if v[2] >= 48 and v[2] <= 72 then
-		-- 	-- 		msg.post("audio#" .. v[2], "play_sound")
-		-- 	-- 	end
-		-- 	-- end
-		-- end
-		if messages[1] == 144 then
-			if messages[2] >= 48 and messages[2] <= 72 then
-				msg.post("audio#" .. messages[2], "play_sound")
-			else
-				print("MIDI range for testing in this example is between 48 and 72")
+	midi.set_listener(function(self, message)
+		if message.event == midi.EVENT_MESSAGE then
+			print("MESSAGE")
+			pprint(message.data)
+			if message.data[1] == 144 then
+				if message.data[2] >= 48 and message.data[2] <= 72 then
+					msg.post("audio#" .. message.data[2], "play_sound")
+				else
+					print("MIDI range for testing in this example is between 48 and 72")
+				end
 			end
+		elseif message.event == midi.EVENT_ERROR then
+			print("ERROR " .. message.error)
+		elseif message.event == midi.EVENT_READY then
+			initialize_midi()
 		end
 	end)
 end
+
 
 function final(self)
 	-- Add finalization code here

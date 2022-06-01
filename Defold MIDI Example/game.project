@@ -14,4 +14,5 @@ input_method = HiddenInputField
 [project]
 title = Defold MIDI Example
 dependencies#0 = https://github.com/subsoap/subsoap-editor-scripts/archive/master.zip
+dependencies#1 = https://github.com/subsoap/defold-midi/archive/master.zip
 
